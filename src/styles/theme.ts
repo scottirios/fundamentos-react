@@ -2,9 +2,7 @@ import { defineConfig } from "@chakra-ui/react";
 
 export const themeConfig = defineConfig({
   globalCss: {
-    "html, body": {
-      backgroundColor: "blue.400",
-    },
+    "html, body": { backgroundColor: "white" },
   },
   theme: {
     tokens: {
