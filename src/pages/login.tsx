@@ -38,6 +38,10 @@ export default function Login() {
     resolver: zodResolver(signInFormSchema),
   });
 
+  function handleSignIn(data: SignInFormData) {
+    console.log(data);
+  }
+
   return (
     <Flex w="100vw" h="100vh">
       <Flex w="50%" bg="#2C73EB" align={"center"} justify="center">
@@ -53,63 +57,65 @@ export default function Login() {
             and password.
           </Text>
 
-          <form
-            onSubmit={handleSubmit((data: SignInFormData) => console.log(data))}
+          <VStack
+            as="form"
+            onSubmit={handleSubmit(handleSignIn)}
+            align="flex-start"
+            gap={6}
+            mt={10}
           >
-            <VStack align="flex-start" gap={6} mt={10}>
-              <Field.Root invalid={!!errors.email}>
-                <Field.Label color="gray.500" fontSize={"md"}>
-                  Email
-                </Field.Label>
-                <Input
-                  h={16}
-                  type="email"
-                  colorPalette="blue"
-                  color="black"
-                  borderRadius="md"
-                  {...register("email")}
-                />
-                <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
-              </Field.Root>
-
-              <Field.Root invalid={!!errors.password}>
-                <Field.Label color="gray.500" fontSize={"md"}>
-                  Password
-                </Field.Label>
-                <PasswordInput
-                  type="password"
-                  h={16}
-                  colorPalette="blue"
-                  color="black"
-                  borderRadius="md"
-                  {...register("password")}
-                />
-                <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
-              </Field.Root>
-
-              <Checkbox
-                colorPalette="blue"
-                color="gray.500"
-                fontWeight="medium"
-                fontSize="md"
-                borderRadius="md"
-              >
-                Remember me
-              </Checkbox>
-
-              <Button
-                type="submit"
-                colorPalette="blue"
+            <Field.Root invalid={!!errors.email}>
+              <Field.Label color="gray.500" fontSize={"md"}>
+                Email
+              </Field.Label>
+              <Input
                 h={16}
+                type="email"
+                colorPalette="blue"
+                color="black"
                 borderRadius="md"
-                fontSize={"md"}
-                fontWeight={"medium"}
-                w="full"
-              >
-                Login
-              </Button>
-            </VStack>
-          </form>
+                {...register("email")}
+              />
+              <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
+            </Field.Root>
+
+            <Field.Root invalid={!!errors.password}>
+              <Field.Label color="gray.500" fontSize={"md"}>
+                Password
+              </Field.Label>
+              <PasswordInput
+                type="password"
+                h={16}
+                colorPalette="blue"
+                color="black"
+                borderRadius="md"
+                {...register("password")}
+              />
+              <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
+            </Field.Root>
+
+            <Checkbox
+              colorPalette="blue"
+              color="gray.500"
+              fontWeight="medium"
+              fontSize="md"
+              borderRadius="md"
+            >
+              Remember me
+            </Checkbox>
+
+            <Button
+              type="submit"
+              colorPalette="blue"
+              h={16}
+              borderRadius="md"
+              fontSize={"md"}
+              fontWeight={"medium"}
+              w="full"
+            >
+              Login
+            </Button>
+          </VStack>
 
           <HStack gap={1} justify={"center"} mt={10}>
             <Text color="gray.500" fontSize={"md"} fontWeight="medium">
