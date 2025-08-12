@@ -13,10 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NextLink from "next/link";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PasswordInput } from "@/components/ui/password-input";
+import { useSession } from "@/contexts/SessionContext";
 import loginImage from "../../public/assets/login-image.gif";
 
 const signInFormSchema = z.object({
@@ -30,6 +32,7 @@ const signInFormSchema = z.object({
 type SignInFormData = z.infer<typeof signInFormSchema>;
 
 export default function Login() {
+  const { user, updateUser } = useSession();
   const {
     register,
     handleSubmit,
@@ -40,7 +43,18 @@ export default function Login() {
 
   function handleSignIn(data: SignInFormData) {
     console.log(data);
+    updateUser({
+      id: "teste",
+      email: data.email,
+      cpf: "08898293909",
+      fullName: "Lucas Scotti",
+      avatarUrl: "https://i.pravatar.cc/150?img=1",
+    });
   }
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <Flex w="100vw" h="100vh">
