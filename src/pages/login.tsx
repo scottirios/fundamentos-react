@@ -13,26 +13,31 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PasswordInput } from "@/components/ui/password-input";
+import { toaster } from "@/components/ui/toaster";
 import { useSession } from "@/contexts/SessionContext";
 import loginImage from "../../public/assets/login-image.gif";
 
 const signInFormSchema = z.object({
-  email: z.email("Invalid email address").nonempty("Email is required"),
+  email: z.email("Digite um e-mail válido").nonempty("O e-mail é obrigatorio"),
   password: z
     .string()
-    .nonempty("Password is required")
-    .min(8, "Password must be at least 8 characters"),
+    .nonempty("A senha é obrigatoria")
+    .min(8, "A senha deve ter pelo menos 8 caracteres"),
 });
 
 type SignInFormData = z.infer<typeof signInFormSchema>;
 
 export default function Login() {
-  const { user, updateUser } = useSession();
+  const { user, signIn } = useSession();
+
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -41,14 +46,21 @@ export default function Login() {
     resolver: zodResolver(signInFormSchema),
   });
 
-  function handleSignIn(data: SignInFormData) {
-    console.log(data);
-    updateUser({
-      id: "teste",
-      email: data.email,
-      cpf: "08898293909",
-      fullName: "Lucas Scotti",
-      avatarUrl: "https://i.pravatar.cc/150?img=1",
+  async function handleSignIn({ email, password }: SignInFormData) {
+    const promise = new Promise<void>(async (resolve, reject) => {
+      try {
+        await signIn({ email, password });
+        resolve();
+        router.push("/");
+      } catch {
+        reject();
+      }
+    });
+
+    toaster.promise(promise, {
+      success: { title: "Login realizado com sucesso." },
+      error: { title: "E-mail ou senha incorretos." },
+      loading: { title: "Carregando informações do usuário, aguarde..." },
     });
   }
 
@@ -58,17 +70,18 @@ export default function Login() {
 
   return (
     <Flex w="100vw" h="100vh">
-      <Flex w="50%" bg="#2C73EB" align={"center"} justify="center">
+      <Flex w="50%" bg="#2C73EB" align="center" justify="center">
         <Image w={500} h={500} src={loginImage.src} />
       </Flex>
       <VStack w="50%" justify="center">
         <Stack>
-          <Heading as="h1" fontSize="3xl" fontWeight="bold" color="black">
-            Account Login
+          <Heading as="h1" color="black" fontSize="3xl" fontWeight="bold">
+            Login
           </Heading>
-          <Text color="gray.400" fontWeight="normal" fontSize="lg">
-            If you are already a member you can login with your email address
-            and password.
+
+          <Text color="gray.400" fontSize="lg" fontWeight="normal">
+            Se você já é membro, você pode fazer login com seu endereço de
+            e-mail e senha.
           </Text>
 
           <VStack
@@ -79,30 +92,29 @@ export default function Login() {
             mt={10}
           >
             <Field.Root invalid={!!errors.email}>
-              <Field.Label color="gray.500" fontSize={"md"}>
+              <Field.Label color="gray.500" fontSize="md">
                 Email
               </Field.Label>
               <Input
-                h={16}
                 type="email"
+                h={16}
                 colorPalette="blue"
-                color="black"
                 borderRadius="md"
+                color="black"
                 {...register("email")}
               />
               <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
             </Field.Root>
 
             <Field.Root invalid={!!errors.password}>
-              <Field.Label color="gray.500" fontSize={"md"}>
-                Password
+              <Field.Label color="gray.500" fontSize="md">
+                Senha
               </Field.Label>
               <PasswordInput
-                type="password"
                 h={16}
                 colorPalette="blue"
-                color="black"
                 borderRadius="md"
+                color="black"
                 {...register("password")}
               />
               <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
@@ -111,32 +123,31 @@ export default function Login() {
             <Checkbox
               colorPalette="blue"
               color="gray.500"
-              fontWeight="medium"
               fontSize="md"
-              borderRadius="md"
+              fontWeight="medium"
             >
-              Remember me
+              Lembre-me
             </Checkbox>
 
             <Button
               type="submit"
-              colorPalette="blue"
-              h={16}
-              borderRadius="md"
-              fontSize={"md"}
-              fontWeight={"medium"}
               w="full"
+              h={16}
+              colorPalette="blue"
+              borderRadius="md"
+              fontSize="md"
+              fontWeight="medium"
             >
-              Login
+              Entrar
             </Button>
           </VStack>
 
-          <HStack gap={1} justify={"center"} mt={10}>
-            <Text color="gray.500" fontSize={"md"} fontWeight="medium">
-              Dont have an account?
+          <HStack justify="center" gap={1} mt={10}>
+            <Text color="gray.500" fontSize="md" fontWeight="medium">
+              Não possui uma conta?
             </Text>
             <ChakraLink color="blue.500" asChild>
-              <NextLink href="/sign-up">Sign up here</NextLink>
+              <NextLink href="/sign-up">Clique aqui!</NextLink>
             </ChakraLink>
           </HStack>
         </Stack>
