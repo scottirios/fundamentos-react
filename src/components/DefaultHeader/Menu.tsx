@@ -1,12 +1,25 @@
-import { CloseButton, Drawer, IconButton, Kbd, Portal } from "@chakra-ui/react";
-import { IoIosMenu } from "react-icons/io";
+import {
+  CloseButton,
+  Drawer,
+  IconButton,
+  Portal,
+  VStack,
+} from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { FaGraduationCap, FaUserPlus } from "react-icons/fa6";
+import { IoIosBook, IoMdMenu, IoMdPeople } from "react-icons/io";
+import { IoCalendarClear, IoLogOut } from "react-icons/io5";
+import { PiFileTextFill } from "react-icons/pi";
+import { RiDashboardFill } from "react-icons/ri";
+import { NavigationItem } from "./NavigationItem";
 
 export function Menu() {
+  const router = useRouter();
   return (
     <Drawer.Root size="md" placement="start">
       <Drawer.Trigger asChild>
         <IconButton variant="ghost" rounded="full">
-          <IoIosMenu />
+          <IoMdMenu />
         </IconButton>
       </Drawer.Trigger>
 
@@ -17,10 +30,56 @@ export function Menu() {
             <Drawer.Header>
               <Drawer.Title>Cesul - Sistema Acadêmico</Drawer.Title>
             </Drawer.Header>
+
             <Drawer.Body>
-              Press the <Kbd>esc</Kbd> key to close the drawer.
+              <VStack>
+                <NavigationItem
+                  icon={<RiDashboardFill />}
+                  label="Dashboard"
+                  onClick={() => router.push("/")}
+                />
+
+                <NavigationItem
+                  icon={<IoMdPeople />}
+                  label="Estudantes"
+                  onClick={() => router.push("/students")}
+                />
+
+                <NavigationItem
+                  icon={<FaGraduationCap />}
+                  label="Professores"
+                  onClick={() => router.push("/teachers")}
+                />
+
+                <NavigationItem
+                  icon={<IoIosBook />}
+                  label="Cursos"
+                  onClick={() => router.push("/courses")}
+                />
+
+                <NavigationItem
+                  icon={<PiFileTextFill />}
+                  label="Notas"
+                  onClick={() => router.push("/grades")}
+                />
+
+                <NavigationItem
+                  icon={<FaUserPlus />}
+                  label="Matrículas"
+                  onClick={() => router.push("/enrollment")}
+                />
+
+                <NavigationItem
+                  icon={<IoCalendarClear />}
+                  label="Calendário"
+                  onClick={() => router.push("/calendar")}
+                />
+              </VStack>
             </Drawer.Body>
-            <Drawer.Footer></Drawer.Footer>
+
+            <Drawer.Footer>
+              <NavigationItem icon={<IoLogOut />} label="Sair" />
+            </Drawer.Footer>
             <Drawer.CloseTrigger asChild>
               <CloseButton size="sm" />
             </Drawer.CloseTrigger>
