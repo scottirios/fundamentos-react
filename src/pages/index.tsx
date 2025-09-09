@@ -1,6 +1,6 @@
 import { Card, Flex, FormatNumber, HStack, Icon, Stat } from "@chakra-ui/react";
 import { FaArrowTrendUp, FaGraduationCap } from "react-icons/fa6";
-import { IoMdPeople } from "react-icons/io";
+import { IoIosBook, IoMdPeople } from "react-icons/io";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 
 export default function Home() {
@@ -82,7 +82,7 @@ export default function Home() {
               p={4}
             >
               <Icon size="xl" color="purple.700">
-                <FaGraduationCap />
+                <IoIosBook />
               </Icon>
             </Flex>
           </Card.Body>
