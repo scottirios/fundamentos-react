@@ -1,15 +1,53 @@
-import { HStack } from "@chakra-ui/react";
-import { BiMoney } from "react-icons/bi";
+import { Card, HStack } from "@chakra-ui/react";
+import { IconType } from "react-icons";
+import { AiFillQuestionCircle } from "react-icons/ai";
+import { BiAward } from "react-icons/bi";
 import {
   FaArrowTrendDown,
   FaArrowTrendUp,
+  FaCalendarDay,
   FaGraduationCap,
 } from "react-icons/fa6";
 import { IoIosBook, IoMdPeople } from "react-icons/io";
 import { IndicatorCard } from "@/components/IndicatorCard";
+import { RecentActivity } from "@/components/RecentActivity";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 
 export default function Home() {
+  const recentActivities = [
+    {
+      id: 1,
+      type: "enrollment",
+      title: "Nova matrícula: Maria Silva - Engenharia de Software",
+      time: "2 min atrás",
+    },
+    {
+      id: 2,
+      type: "grade",
+      title: "Notas lançadas: Cálculo I - Prof. João Santos",
+      time: "15 min atrás",
+    },
+    {
+      id: 3,
+      type: "course",
+      title: "Novo curso criado: Análise de Ddoas",
+      time: "1 hora atrás",
+    },
+    {
+      id: 4,
+      type: "calendar",
+      title: "Evento adicionado: Semana da Computação",
+      time: "2 min atrás",
+    },
+  ];
+
+  const iconMap: Record<string, IconType> = {
+    enrollment: IoMdPeople,
+    grade: BiAward,
+    course: IoIosBook,
+    calendar: FaCalendarDay,
+  };
+
   return (
     <DefaultLayout
       title="Dashboard Acadêmico"
@@ -63,13 +101,36 @@ export default function Home() {
         />
 
         <IndicatorCard
-          label="Mensalidade Média"
-          value={2.568}
-          style="decimal"
-          indicator="+3.9% este mês"
-          icon={BiMoney}
-          colorPalette="green"
+          label="Eventos Acadêmicos"
+          value={18}
+          indicator="+4 este mês"
+          icon={FaCalendarDay}
+          colorPalette="cyan"
         />
+      </HStack>
+
+      <HStack mt={8}>
+        <Card.Root>
+          <Card.Header>
+            <Card.Title>Atividades Recentes</Card.Title>
+          </Card.Header>
+
+          <Card.Body gap={10}>
+            {recentActivities.map((activity) => {
+              const ActivityIcon =
+                iconMap[activity.type] ?? AiFillQuestionCircle;
+              return (
+                <RecentActivity
+                  key={activity.id}
+                  colorPalette="blue"
+                  icon={ActivityIcon}
+                  title={activity.title}
+                  time={activity.time}
+                />
+              );
+            })}
+          </Card.Body>
+        </Card.Root>
       </HStack>
     </DefaultLayout>
   );
