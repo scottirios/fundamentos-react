@@ -29,7 +29,11 @@ export function IndicatorCard({
   const Indicator = isNegative ? Stat.DownIndicator : Stat.UpIndicator;
 
   return (
-    <Card.Root>
+    <Card.Root
+      _hover={{ boxShadow: "md" }}
+      transition="box-shadow 0.2s"
+      w="full"
+    >
       <Card.Body flexDir="row" alignItems="center" gap={6}>
         <Stat.Root>
           <Stat.Label fontSize="md">{label}</Stat.Label>
