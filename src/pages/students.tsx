@@ -1,12 +1,16 @@
+import { HStack } from "@chakra-ui/react";
+import { StudentsHeader } from "@/components/StudentsHeader";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 
 export default function Students() {
   return (
     <DefaultLayout
       title="Gestão de Estudantes"
-      description="Gerencie os estudantes da sua instituição."
+      description="Gerencie informações dos estudantes matrículados"
     >
-      OI
+      <HStack>
+        <StudentsHeader />
+      </HStack>
     </DefaultLayout>
   );
 }

@@ -1,12 +1,12 @@
 import {
   Card,
-  ColorPalette,
   Flex,
   FormatNumber,
   FormatNumberProps,
   Icon,
   Stat,
 } from "@chakra-ui/react";
+import type { ColorPalette } from "@chakra-ui/react/styled-system";
 import { IconType } from "react-icons";
 
 interface IndicatorCardProps extends FormatNumberProps {
@@ -14,7 +14,7 @@ interface IndicatorCardProps extends FormatNumberProps {
   value: number;
   indicator: string;
   icon: IconType;
-  colorPalette: ColorPalette;
+  colorPallete: ColorPalette;
 }
 
 export function IndicatorCard({
@@ -22,18 +22,14 @@ export function IndicatorCard({
   value,
   indicator,
   icon,
-  colorPalette,
+  colorPallete,
   ...rest
 }: IndicatorCardProps) {
   const isNegative = indicator.trim().startsWith("-");
   const Indicator = isNegative ? Stat.DownIndicator : Stat.UpIndicator;
 
   return (
-    <Card.Root
-      _hover={{ boxShadow: "md" }}
-      transition="box-shadow 0.2s"
-      w="full"
-    >
+    <Card.Root _hover={{ boxShadow: "md" }}>
       <Card.Body flexDir="row" alignItems="center" gap={6}>
         <Stat.Root>
           <Stat.Label fontSize="md">{label}</Stat.Label>
@@ -46,11 +42,11 @@ export function IndicatorCard({
         <Flex
           justify="center"
           align="center"
-          backgroundColor={`${colorPalette}.100`}
+          backgroundColor={`${colorPallete}.100`}
           rounded="lg"
           p={4}
         >
-          <Icon as={icon} size="xl" color={`${colorPalette}.700`} />
+          <Icon as={icon} size="xl" color={`${colorPallete}.700`} />
         </Flex>
       </Card.Body>
     </Card.Root>

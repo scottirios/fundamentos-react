@@ -13,30 +13,35 @@ interface CardBaseProps {
   icon: IconType;
   title: string;
   description: string;
-  colorPalette: ColorPalette;
+  colorPallete: ColorPalette;
 }
 
 export function CardBase({
   icon,
   title,
   description,
-  colorPalette,
+  colorPallete,
 }: CardBaseProps) {
   return (
     <HStack
-      gap={6}
+      _hover={{
+        backgroundColor: "gray.50",
+        rounded: "md",
+        _dark: {
+          backgroundColor: "gray.900",
+        },
+      }}
       p={4}
-      _hover={{ bg: "gray.50", rounded: "md", _dark: { bg: "gray.900" } }}
+      gap={6}
     >
       <Flex
         justify="center"
         align="center"
-        backgroundColor={`${colorPalette}.100`}
+        backgroundColor={`${colorPallete}.100`}
         rounded="lg"
-        gap={6}
-        p={4}
+        p={2}
       >
-        <Icon as={icon} size="xl" color={`${colorPalette}.700`} />
+        <Icon as={icon} size="xl" color={`${colorPallete}.700`} />
       </Flex>
 
       <VStack align="start" gap={1}>
